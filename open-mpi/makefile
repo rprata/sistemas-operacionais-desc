@@ -1,5 +1,5 @@
 CC=mpicc
-CFLAGS=-W
+CFLAGS=-W -std=gnu99
 SOURCE_MULT=mult-matrix-open-mpi.c
 BIN_MULT=mult-matrix-open-mpi
 

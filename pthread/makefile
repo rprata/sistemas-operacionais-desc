@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-W
+CFLAGS=-Wall
 LIBRARY=-lpthread -lrt
 SOURCE_MULT=mult-matrix-pthread.c
 SOURCE_SUM=sum-matrix-pthread.c
