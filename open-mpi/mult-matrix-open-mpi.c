@@ -107,12 +107,13 @@ int main (int argc, char ** argv)
     }
 
     //calculo de cada fatia
+
     for (int i = 0; i < matrix_size / number_of_process; i++) 
         for (int j = 0; j < matrix_size; j++)
-            for (int k = 0; k < matrix_size; k++) 
+            for (int k = 0; k < matrix_size; k++)
                 C[i][j] += A[i][k] * B[k][j];
         
-    //Processo principal recebe o valor calculado de cada fatia produzida por um processo auxiliar
+    //processo principal recebe o valor calculado de cada fatia produzida por um processo auxiliar
     if (process_id == 0)
     {
         offset = matrix_size / number_of_process;
@@ -129,7 +130,7 @@ int main (int argc, char ** argv)
         MPI_Send(C[0], (matrix_size / number_of_process) * matrix_size, MPI_INT, 0, TAG, MPI_COMM_WORLD);
     }
 
-    //Impressão do resultado (no caso de uma matriz inferior a 20 x 20)
+    //Impressão do resultado (no caso de uma matriz inferior a 20)
     if (process_id == 0 && matrix_size <= 20)
     {
         for (int i = 0; i < matrix_size; i++)
