@@ -12,7 +12,9 @@ int main (int argc, char ** argv)
     int ** A, ** B, ** C; //Matrizes A, B e C. Novamente as matrizes tem seus elementos com valor 1 para simplificar a resposta.
     int * tmp; //Ponteiro que referencia posições das matrizes no auxilio do cálculo paralelo
  
-    if (argc < 2) //caso não seja passado o argumento com a dimensão da matriz.
+    double start_time, end_time;// Variaveis para calculo do tempo
+
+    if (argc < 2) //caso não seja passado o argumento com a dimensão da matriz
     {
 		printf("Use: mpiexec -n <P> %s <N>,  onde 'N' é a dimensão da matriz unitária e 'P' é o número de processos\n", argv[0]);   
     	return 1;
@@ -20,8 +22,8 @@ int main (int argc, char ** argv)
     
     matrix_size = atoi(argv[1]);
 
-    //Para este código vamos considerar que o processo zero será o principal e todos estarão ligados a ele.  
-    //Então teremos 1 máquina principal (id = 0) e outras que irão receber a fatia para o cálculo.
+    //Para este código vamos considerar que o processo zero será o principal e todos estarão ligados a ele
+    //Então teremos 1 máquina principal (id = 0) e outras que irão receber a fatia para o cálculo
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &number_of_process);
     MPI_Comm_rank(MPI_COMM_WORLD, &process_id);
@@ -79,7 +81,11 @@ int main (int argc, char ** argv)
 
     int offset, number_of_elements;
 
-    //processo principal envia fatias para os demais processos
+    //Calcula tempo inicial
+    if (process_id == 0)
+        start_time = MPI_Wtime();
+
+    //Processo principal envia fatias para os demais processos
     if (process_id == 0)
     {
         offset = matrix_size / number_of_process;
@@ -128,6 +134,12 @@ int main (int argc, char ** argv)
     else
     {
         MPI_Send(C[0], (matrix_size / number_of_process) * matrix_size, MPI_INT, 0, TAG, MPI_COMM_WORLD);
+    }
+
+    if (process_id == 0)
+    {
+        end_time = MPI_Wtime();
+        printf("O tempo de execução foi de %.6f\n", end_time - start_time);
     }
 
     //Impressão do resultado (no caso de uma matriz inferior a 20)
