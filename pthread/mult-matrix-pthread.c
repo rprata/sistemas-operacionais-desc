@@ -23,7 +23,7 @@ void multiplyMatrices (int matrix_id, int matrix_size, int number_of_threads, in
 
 void * function_pthread (void * arg);
 void createThreads (pthread_t * threads, int number_of_threads, int matrix_size, int ** mat_A, int ** mat_B, int ** mat_C);
-void joinThreads (pthread_t * p_threads);
+void joinThreads (pthread_t * p_threads, int number_of_threads);
 
 int ** allocateMatrix (int matrix_size);
 void generateMatrix(int ** mat, int matrix_size);
@@ -71,7 +71,7 @@ int main (int argc, char ** argv)
 	createThreads(p_threads, number_of_threads, matrix_size, A, B, C);
 
 	//Join das threads
-	joinThreads(p_threads);
+	joinThreads(p_threads, number_of_threads);
 
 	//Captura tempo final
 	clock_gettime(CLOCK_MONOTONIC, &end_time);
@@ -128,10 +128,11 @@ void * function_pthread (void * arg)
 {
 	Matrix_Data * m_data = (Matrix_Data *) arg;
 	multiplyMatrices(m_data->id, m_data->matrix_size, m_data->number_of_threads, m_data->A, m_data->B, m_data->C);
+	return (void *) NULL;
 }
 
 //Aguarda até o término da execução das threads
-void joinThreads (pthread_t * p_threads)
+void joinThreads (pthread_t * p_threads, int number_of_threads)
 {
 	int i;
 	for (i = 0; i < number_of_threads; i++)
@@ -164,10 +165,10 @@ int ** allocateMatrix (int matrix_size)
 	int * values, ** temp;
 
   	// alocação de espaço para valores
-  	values = malloc (matrix_size * matrix_size * sizeof(double));
+  	values = malloc (matrix_size * matrix_size * sizeof(int));
 
   	// alocação de ponteiros para vetores
- 	temp = malloc (matrix_size * sizeof(double *));
+ 	temp = malloc (matrix_size * sizeof(int *));
 
 	for (i = 0; i < matrix_size; i++)
   		temp[i] = &(values[i * matrix_size]);

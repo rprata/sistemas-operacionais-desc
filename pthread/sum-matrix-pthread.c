@@ -58,6 +58,10 @@ int main (int argc, char ** argv)
 	//Alocação de espaço para threads de acordo com o número de threads
 	p_threads = (pthread_t *) malloc(number_of_threads * sizeof(pthread_t));
 
+
+	//Inicializa o mutex
+  	pthread_mutex_init(&mut, NULL);
+
 	//Captura tempo inicial
 	clock_gettime(CLOCK_MONOTONIC, &initial_time);
 
@@ -77,14 +81,16 @@ int main (int argc, char ** argv)
 	double elapsed = end_time.tv_sec - initial_time.tv_sec;
 	elapsed += (end_time.tv_nsec - initial_time.tv_nsec) / 1000000000.0;
  	printf ("O tempo de processamento foi de: %f segundos\n", elapsed);   
-  
+	
+	//Inicializa o mutex
+  	pthread_mutex_destroy(&mut);  
 	return 0;
 }
 
 //Algoritmo de produto de matrizes
 void sumMatrices (int matrix_id, int matrix_size, int number_of_threads, int ** mat_A)
 {
-	int i, j, k;
+	int i, j;
 	int start_row, end_row;
 
 	//calculo para as bordas (alcance) destas threads.
@@ -118,6 +124,7 @@ void * function_pthread (void * arg)
 {
 	Matrix_Data * m_data = (Matrix_Data *) arg;
 	sumMatrices(m_data->id, m_data->matrix_size, m_data->number_of_threads, m_data->A);
+	return (void *)NULL;
 }
 
 //Aguarda até o término da execução das threads
@@ -152,10 +159,10 @@ int ** allocateMatrix (int matrix_size)
 	int * values, ** temp;
 
   	// alocação de espaço para valores
-  	values = malloc (matrix_size * matrix_size * sizeof(double));
+  	values = malloc (matrix_size * matrix_size * sizeof(int));
 
   	// alocação de ponteiros para vetores
- 	temp = malloc (matrix_size * sizeof(double *));
+ 	temp = malloc (matrix_size * sizeof(int *));
 
 	for (i = 0; i < matrix_size; i++)
   		temp[i] = &(values[i * matrix_size]);
