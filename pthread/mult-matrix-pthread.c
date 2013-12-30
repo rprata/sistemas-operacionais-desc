@@ -92,7 +92,6 @@ int main (int argc, char ** argv)
 void multiplyMatrices (int matrix_id, int matrix_size, int number_of_threads, int ** mat_A, int ** mat_B, int ** mat_C)
 {
 	int i, j, k;
-	int sum;
 	int start_row, end_row;
 
 	//calculo para as bordas (alcance) destas threads.
@@ -107,17 +106,14 @@ void multiplyMatrices (int matrix_id, int matrix_size, int number_of_threads, in
 		end_row = (matrix_id + 1) * (matrix_size/number_of_threads);
 	}
 
-
 	for (i = start_row; i < end_row; i++)
 	{
 		for (j = 0; j < matrix_size; j++) 
 		{
-			sum = 0;
 			for (k = 0; k < matrix_size; k++)
 			{
-				sum = sum + mat_A[i][k] * mat_B[k][j];
+				mat_C[i][j] += mat_A[i][k] * mat_B[k][j];
 			}
-			mat_C[i][j] = sum;
 		}
 	}
 
