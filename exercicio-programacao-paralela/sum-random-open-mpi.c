@@ -90,11 +90,11 @@ int main (int argc, char ** argv)
         else
         	MPI_Recv(&sequence[0], n / number_of_process + n % number_of_process, MPI_INT, 0, TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
-
-   //Soma cada fatia individualmente
-	for (int i = 0; i < ((process_id < number_of_process - 1) ? (n / number_of_process) 
-		:  (n / number_of_process + n % number_of_process)); i++)
-	{
+    
+    //Soma cada fatia individualmente
+    for (int i = 0; i < ((process_id < number_of_process - 1) ? (n / number_of_process) 
+        :  (n / number_of_process + n % number_of_process)); i++)
+    {
 		sum += sequence[i];
 	}
 	
