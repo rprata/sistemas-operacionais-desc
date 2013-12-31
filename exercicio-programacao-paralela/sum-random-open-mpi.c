@@ -1,6 +1,12 @@
-/*** Trabalho de Sistemas Operacionais
- *** mpiexec -n <P> sum-random-open-mpi
- *** TODO: terminar para entrega :D
+/*** 
+ *** Trabalho de Sistemas Operacionais
+ *** Aluno: Renan Prata
+ *** Matricula: 2008.2.04357.11
+ *** Professora: Cristiana Bentes
+ *** 31/12/2013 - 12:13
+ *** Obs1.: O software foi desenvolvido para rodar em ambiente unix/linux. Para compilar digite 'make' na linha de comando;
+ *** Obs2.: Para executar o programa digite: mpiexec -n <P> sum-random-open-mpi, sendo que <P> é o numero de processos da aplicação;
+ *** Obs3.: Para realizar um 'debug', descomente a linha 18 do código e recompile;
  ***/
 
 #include <stdio.h>
@@ -9,6 +15,7 @@
 #include <time.h> 
 
 #define TAG 7
+// #define DEBUG
 
 int main (int argc, char ** argv) 
 {
@@ -51,11 +58,17 @@ int main (int argc, char ** argv)
     	for (int i = 0; i < n; i++) 
     	{
     		sequence[i] = rand() % 100; //1;
-    		sum_par += sequence[i];
-    		printf("%d ", sequence[i]);
-    	}
-    	printf("\n");
-    	printf("resultado = %d\n", sum_par);
+    		
+            #ifdef DEBUG 
+            sum_par += sequence[i];
+            printf("%d ", sequence[i]);
+            #endif
+        }
+        
+        #ifdef DEBUG
+        printf("\n");
+        printf("resultado = %d\n", sum_par);
+        #endif
     }
     else
     {
@@ -123,12 +136,11 @@ int main (int argc, char ** argv)
     if (process_id == 0)
     {
         end_time = MPI_Wtime();
-        printf("O tempo de execução foi de %.6f\n", end_time - start_time);
-        printf("O rprinesultado foi = %d\n", sum);
+        printf("O resultado final foi %d e o tempo de execução foi de %.6f\n", sum, end_time - start_time);
     }
 
-    // Finaliza o MPI
+    //Finaliza o MPI
     MPI_Finalize();
 
-	return 0;
+    return 0;
 }
