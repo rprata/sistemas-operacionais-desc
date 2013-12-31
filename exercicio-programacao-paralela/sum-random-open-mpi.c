@@ -37,10 +37,10 @@ int main (int argc, char ** argv)
         printf("Digite a quantidade de termos da sequencia aleatoria que sera gerada: ");
         fflush(stdout);
         scanf("%d", &n);
-	}	
+    }	
 	
     //Envia a todos os processos o valor de 'n'
-	MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Barrier(MPI_COMM_WORLD);
 
    	//Inicializa e atribui valores aleatorios na sequencia
