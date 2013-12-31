@@ -95,10 +95,10 @@ int main (int argc, char ** argv)
     for (int i = 0; i < ((process_id < number_of_process - 1) ? (n / number_of_process) 
         :  (n / number_of_process + n % number_of_process)); i++)
     {
-		sum += sequence[i];
-	}
+        sum += sequence[i];
+    }
 	
-	MPI_Barrier(MPI_COMM_WORLD); //barreira pra controle
+    MPI_Barrier(MPI_COMM_WORLD); //barreira pra controle
 
     //processo principal recebe o valor calculado de cada fatia produzida por um processo auxiliar
     if (process_id == 0)
