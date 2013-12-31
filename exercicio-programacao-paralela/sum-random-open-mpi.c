@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <mpi.h>
+#include <time.h> 
 
 #define TAG 7
 
@@ -20,6 +21,9 @@ int main (int argc, char ** argv)
 	int * sequence; //Array que armazena a sequencia aleatoria
 
 	double start_time, end_time;// Variaveis para calculo do tempo
+
+    //Inicializa a sequencia sempre aleatória
+    srand(time(NULL));
 
 	//Para este código vamos considerar que o processo zero será o principal e todos estarão ligados a ele
     //Então teremos 1 máquina principal (id = 0) e outras que irão receber a fatia para o cálculo
