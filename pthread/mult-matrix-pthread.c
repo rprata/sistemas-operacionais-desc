@@ -85,6 +85,11 @@ int main (int argc, char ** argv)
 	elapsed += (end_time.tv_nsec - initial_time.tv_nsec) / 1000000000.0;
  	printf ("O tempo de processamento foi de: %f segundos\n", elapsed);   
   
+  	free(A);
+  	free(B);
+  	free(C);
+  	free(p_threads);
+  	
 	return 0;
 }
 
@@ -97,14 +102,14 @@ void multiplyMatrices (int matrix_id, int matrix_size, int number_of_threads, in
 	//calculo para as bordas (alcance) destas threads.
 	start_row = matrix_id * (matrix_size / number_of_threads);
 
-	if (matrix_id == number_of_threads - 1)
-	{
-		end_row = (matrix_id + 1) * (matrix_size/number_of_threads) + matrix_size % number_of_threads;
-	}
-	else
-	{
+	// if (matrix_id == number_of_threads - 1)
+	// {
+	// 	end_row = (matrix_id + 1) * (matrix_size/number_of_threads) + matrix_size % number_of_threads;
+	// }
+	// else
+	// {
 		end_row = (matrix_id + 1) * (matrix_size/number_of_threads);
-	}
+	// }
 
 	for (i = start_row; i < end_row; i++)
 	{
