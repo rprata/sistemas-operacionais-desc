@@ -110,6 +110,7 @@ void multiplyMatrices (int matrix_id, int matrix_size, int number_of_threads, in
 	{
 		for (j = 0; j < matrix_size; j++) 
 		{
+			mat_C[i][j] = 0;
 			for (k = 0; k < matrix_size; k++)
 			{
 				mat_C[i][j] += mat_A[i][k] * mat_B[k][j];
